@@ -1,0 +1,40 @@
+# --- Bracket Style ---
+# Allman style (Braces on new lines, standard for C# and Visual Studio)
+--style=allman
+
+# --- Indentation ---
+# Use spaces instead of tabs, 4 spaces per indent level
+--indent=spaces=4
+# Indent 'switch' blocks and 'case' statements inside them
+--indent-switches
+# Indent namespace contents (Standard for C++, optional but cleaner for C++/CLI)
+--indent-namespaces
+# Indent multi-line preprocessor macros
+--indent-preproc-define
+# Indent multi-line conditional expressions cleanly
+--indent-after-parens
+
+# --- Padding & Spacing ---
+# Pad empty lines around headers (e.g., after if, while, for blocks)
+--break-blocks
+# Insert space padding around operators (e.g., v = a + b;)
+--pad-oper
+# Insert space padding inside parenthesis definitions (e.g., if ( isTrue ))
+# --pad-paren  # Uncomment if you prefer loose parenthesis spacing
+
+# --- Pointer, Reference, and Handle Alignment ---
+# Attaches *, &, and C++/CLI's ^ tracking handle to the variable TYPE (e.g., String^ str;)
+--align-pointer=type
+--align-reference=type
+
+# --- Code Modification ---
+# Do not break complex lines indiscriminately 
+--max-code-length=140
+# Clean up extra background empty lines
+--delete-empty-lines
+
+# --- CLI Behavior ---
+# Format files recursively through directories
+--recursive
+# Do not create .orig backup files (Ensure your code is in Git before running!)
+--suffix=none

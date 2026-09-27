@@ -1,0 +1,48 @@
+name: "Build"
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build-bridge:
+    runs-on: windows-latest # Dynamically moves to the latest enterprise compilation environments
+    
+    steps:
+    - name: "Checkout Repository with Submodules"
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        fetch-depth: 1
+
+    - name: "Setup Premake5 Engine"
+      shell: powershell
+      run: |
+        Invoke-WebRequest -Uri "https://github.com/premake/premake-core/releases" -OutFile "premake{$version}.zip"
+        Expand-Archive -Path "premake{$version}.zip" -DestinationPath "."
+        Remove-Item "premake{$version}.zip"
+
+    - name: "Configure MSBuild"
+      uses: microsoft/setup-msbuild@v2
+
+    - name: "Execute BindingGen Automation Pass"
+      shell: cmd
+      run: |
+        .\premake5.exe vs2022
+        msbuild BWAPICLIWorkspace.sln /p:Configuration=Release /p:Platform=x86 /t:BindingGen
+        .\bin\Release\BindingGen.exe
+
+    - name: "Compile BWAPI-CLI (Modern Target)"
+      shell: cmd
+      run: |
+        .\premake5.exe vs2022
+        msbuild BWAPICLIWorkspace.sln /p:Configuration=Release /p:Platform=x86 /t:BWAPI-CLI
+
+    - name: "Upload Compiled Bridge Artifacts"
+      uses: actions/upload-artifact@v4
+      with:
+        name: BWAPI-CLI-Modern-Package
+        path: |
+          bin/Release/BWAPI-CLI.dll
+          bin/Release/mono-2.0-sgen.dll

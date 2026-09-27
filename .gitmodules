@@ -1,0 +1,9 @@
+[submodule "3rdparty/bwapi"]
+	path = 3rdparty/bwapi
+	url = https://github.com/bwapi/bwapi.git
+[submodule "3rdparty/mono"]
+	path = 3rdparty/mono
+	url = https://github.com/mono/mono.git
+[submodule "3rdparty/bwta2"]
+	path = 3rdparty/bwta2
+	url = https://github.com/Tyrion3000/bwta2.git
